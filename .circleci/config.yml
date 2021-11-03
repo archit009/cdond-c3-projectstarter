@@ -137,28 +137,28 @@ jobs:
       - run:
           name: Ensure back-end infrastructure exists
           command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/backend.yml \
-              --tags project=udapeople \
-              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            aws cloudformation deploy 
+              --template-file .circleci/files/backend.yml 
+              --tags project=udapeople 
+              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" 
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
   
       - run:
           name: Ensure front-end infrastructure exist
           command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
-              --tags project=udapeople \
-              --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            aws cloudformation deploy 
+              --template-file .circleci/files/frontend.yml 
+              --tags project=udapeople 
+              --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" 
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
               
       - run:
           name: Add backend ip to ansible inventory
           command: |
             echo "[backend]" >> .circleci/ansible/inventory.txt
-            aws ec2 describe-instances \
-             --filters "Name=tag:project,Values=udapeople" \
-             --query 'Reservations[*].Instances[*].PublicDnsName' \
+            aws ec2 describe-instances 
+             --filters "Name=tag:project,Values=udapeople" 
+             --query 'Reservations[*].Instances[*].PublicDnsName' 
              --output text >> .circleci/ansible/inventory.txt # Appends results to inventory.txt
              cat .circleci/ansible/inventory.txt
       - run:
@@ -166,13 +166,13 @@ jobs:
         
           no_output_timeout: 10m #time out after 15 minutes
           command: |
-            backend_dns=$(aws ec2 describe-instances \
-             --filters "Name=tag:project,Values=udapeople" \
-             --query 'Reservations[*].Instances[*].PublicDnsName' \
+            backend_dns=$(aws ec2 describe-instances 
+             --filters "Name=tag:project,Values=udapeople" 
+             --query 'Reservations[*].Instances[*].PublicDnsName' 
              --output text)
-            curl -H "Content-Type: text/plain" -H "token: fb31afa8-d49a-463a-a9f7-272072410d59" \
+            curl -H "Content-Type: text/plain" -H "token: fb31afa8-d49a-463a-a9f7-272072410d59" 
             --request PUT --data "$ec2_IP" https://api.memstash.io/values/ec2_IP
-            echo $backend_dns
+            echo $ec2_IP
       - run:
           name: Test memstash stored ip
           command: |
