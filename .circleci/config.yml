@@ -27,7 +27,7 @@ commands:
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             #SUCCESS = 1
-            SUCCESS=$(curl -H "token: fb31afa8-d49a-463a-a9f7-272072410d59" --request GET https://api.memstash.io/values/migration-<< parameter.workflow_id >>)
+            SUCCESS=$(curl -H "token: fb31afa8-d49a-463a-a9f7-272072410d59" --request GET https://api.memstash.io/values/migration-<< parameters.workflow_id >>)
             echo $SUCCESS
             if(( $SUCCESS==1 ));
             then
