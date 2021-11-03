@@ -164,26 +164,17 @@ jobs:
              cat .circleci/ansible/inventory.txt
       - run:
           name: Persist backend ip to storage
-        
-          no_output_timeout: 10m #time out after 15 minutes
-          command: |
-            backend_dns=$(aws ec2 describe-instances 
-             --filters "Name=tag:project,Values=udapeople" 
-             --query 'Reservations[*].Instances[*].PublicDnsName' 
-             --output text)
-            curl -H "Content-Type: text/plain" -H "token: fb31afa8-d49a-463a-a9f7-272072410d59" 
-            --request PUT --data "$ec2_IP" https://api.memstash.io/values/ec2_IP
-            echo $ec2_IP
-      - run:
-          name: Test memstash stored ip
-          command: |
-            result=$(curl -H "token: fb31afa8-d49a-463a-a9f7-272072410d59" --request GET https://api.memstash.io/values/ec2_IP)
-            echo "$result"
+           command: |
+            # Your code here
+            aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --output text >> .circleci/ansible/inventory
+            cat .circleci/ansible/inventory
       - persist_to_workspace:
-          root: ~/
+          root: .circleci/ansible
           paths:
-            - project/.circleci/ansible/inventory.txt
-            - project/backend/
+            - inventory.txt  
       # Here's where you will add some code to rollback on failure
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"    
