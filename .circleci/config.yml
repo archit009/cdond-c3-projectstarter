@@ -111,6 +111,7 @@ jobs:
             npm install
             npm audit --audit-level=critical    
             npm audit fix --audit-level=critical --force
+            npm audit fix
       
 
   scan-backend:
@@ -127,6 +128,7 @@ jobs:
             npm install
             npm audit --audit-level=critical
             npm audit fix --audit-level=critical --force
+            npm audit fix
      
 
 #   deploy-infrastructure:
