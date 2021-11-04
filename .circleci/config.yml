@@ -395,7 +395,10 @@ jobs:
             command: |
               if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
               then
+<<<<<<< HEAD
 
+=======
+>>>>>>> d266c695b22614f69f31afa26b8b3a8c64a8b3c9
                 aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
                 aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
               fi
