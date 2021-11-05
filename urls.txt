@@ -1,0 +1,2 @@
+Github Repo:- https://github.com/archit009/udacity-auto-deploy-project
+S3 Link:- http://udapeople-e2c5f3a.s3-website-us-east-1.amazonaws.com/#/employees
