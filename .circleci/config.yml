@@ -328,7 +328,7 @@ jobs:
           command: |
             if curl "http://${API_URL}/api/status" | grep "ok"
             then
-                echo "Backend Smoke Test Passed"
+                echo "Backend Smoke Test Passed!"
                 return 0
             else
                 echo "Backend Smoke Test Faild"
