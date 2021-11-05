@@ -1,23 +1,18 @@
 ---
-- name: "create app directory"
+- name: 'Create directory'
   file:
     path: /home/ubuntu/backend
     state: directory
 
-#- name: "Copy backnd files to the new server."
- # copy:
-  #  src: ~/project/artifact.tar.gz
-   # dest: ~/project
-
-- name: "unarchive backend files"
+- name: 'Copy backend tar.gz file and unzip it'
+  become: yes
   unarchive:
-    src: ~/project/artifact.tar.gz
-    dest: /home/ubuntu/backend
+    src: backend.tar.gz
+    dest: /home/ubuntu
 
-- name: "Extract Files and starting the app"
+- name: 'Start backend'
+  become: true
   shell: |
-    cd backend/
-    npm install
-    npm audit fix --audit-level=critical --force
-    pm2 stop default
-    pm2 start npm -- start
+    cd /home/ubuntu/backend
+    pm2 start npm --name backend -- start
+    pm2 ls
